@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public class TournamentSource {
 
-    public static Optional<Tournament> getTournamentById(Integer id) {
+    public static Optional<Tournament> getTournamentById(int id) {
         try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
                    SELECT *
                    FROM tornei
