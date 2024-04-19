@@ -33,7 +33,6 @@ public class UserSource {
                 ));
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
         }
         return Optional.empty();
     }
