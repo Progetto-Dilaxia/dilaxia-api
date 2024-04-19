@@ -16,6 +16,8 @@ public class TournamentSource {
                    WHERE id = ?
                     LIMIT 1;
                 """)) {
+            statement.setInt(1, id);
+
             ResultSet result = statement.executeQuery();
             if (result.next()) {
                 return Optional.of(new Tournament(
