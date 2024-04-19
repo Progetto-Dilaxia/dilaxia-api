@@ -1,6 +1,8 @@
 package it.avbo.dilaxia.api.database;
 
 import it.avbo.dilaxia.api.entities.Tournament;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +10,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class TournamentSource {
+    private final static Logger logger = LoggerFactory.getLogger(TournamentSource.class);
 
     public static Optional<Tournament> getTournamentById(int id) {
         try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
@@ -28,7 +31,8 @@ public class TournamentSource {
                         result.getString("prof_creatore"), result.getString("descrizione")
                 ));
             }
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            logger.error("Unexpected error during statement execution:\n{}", e.getMessage(), e);
         }
         return Optional.empty();
     }

@@ -2,6 +2,8 @@ package it.avbo.dilaxia.api.database;
 
 import it.avbo.dilaxia.api.entities.User;
 import it.avbo.dilaxia.api.entities.enums.UserRole;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.sql.Date;
 import java.sql.PreparedStatement;
@@ -10,6 +12,8 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class UserSource {
+    private static Logger logger = LoggerFactory.getLogger(UserSource.class);
+
     public static Optional<User> getUserByIdentifier(String identifier) {
         try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
                 SELECT *
@@ -33,6 +37,7 @@ public class UserSource {
                 ));
             }
         } catch (SQLException e) {
+            logger.error("Unexpected error during statement execution:\n{}", e.getMessage(), e);
         }
         return Optional.empty();
     }
