@@ -1,4 +1,4 @@
-package it.avbo.dilaxia.api.servlets.auth;
+package it.avbo.dilaxia.api.servlets.account;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -6,7 +6,6 @@ import it.avbo.dilaxia.api.database.UserSource;
 import it.avbo.dilaxia.api.entities.User;
 import it.avbo.dilaxia.api.models.auth.AccountDeletionModel;
 import it.avbo.dilaxia.api.services.Utils;
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Optional;
 
-@WebServlet("/auth/delete")
+@WebServlet("/account/delete")
 public class AccountDeletionServlet extends HttpServlet {
     private final Gson gson = new Gson();
     private static final PasswordFactory passwordFactory;
