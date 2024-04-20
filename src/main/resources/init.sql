@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS iscrizioni_sport
 CREATE TABLE IF NOT EXISTS campo
 (
     id        smallint(4) UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    nome varchar(30) NOT NULL,
     indirizzo varchar(50) NOT NULL
 );
 
