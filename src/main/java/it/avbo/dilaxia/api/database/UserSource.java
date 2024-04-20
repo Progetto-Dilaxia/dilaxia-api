@@ -64,7 +64,17 @@ public class UserSource {
     }
 
     public static boolean removeUser(String username) {
-        // TODO
-        return true;
+        try(PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
+            DELETE FROM utenti
+            WHERE utenti.username = ?;
+        """)) {
+            statement.setString(1, username);
+            statement.executeUpdate();
+            return true;
+        }catch (SQLException e) {
+            return false;
+
+        }
+
     }
 }
