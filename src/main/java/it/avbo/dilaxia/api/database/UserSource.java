@@ -31,7 +31,7 @@ public class UserSource {
                         resultSet.getString("email"),
                         resultSet.getString("sesso").charAt(0),
                         Date.valueOf(resultSet.getString("data_nascita")),
-                        UserRole.fromValue(resultSet.getString("ruolo").charAt(0)),
+                        UserRole.fromValue(resultSet.getString("ruolo")),
                         resultSet.getBytes("password_hash"),
                         resultSet.getBytes("salt")
                 ));
@@ -51,7 +51,7 @@ public class UserSource {
             statement.setString(2, user.email);
             statement.setString(3, String.valueOf(user.sex));
             statement.setDate(4, user.birthday);
-            statement.setString(5, String.valueOf(user.role.getValue()));
+            statement.setString(5, user.role.getValue());
             statement.setBytes(6, user.passwordHash);
             statement.setBytes(7, user.salt);
 
