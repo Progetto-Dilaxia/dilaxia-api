@@ -1,23 +1,23 @@
 package it.avbo.dilaxia.api.entities.enums;
 
 public enum UserRole {
-    Student('S'),
-    Teacher('I'),
-    External('E'),
-    Admin('A');
+    Student("S"),
+    Teacher("I"),
+    External("E"),
+    Admin("A");
 
-    private final char value;
-    UserRole(char value) {
+    private final String value;
+    UserRole(String value) {
         this.value = value;
     }
 
-    public int getValue() {
+    public String getValue() {
         return value;
     }
 
-    public static UserRole fromValue(char value) {
+    public static UserRole fromValue(String value) {
         for(UserRole role: UserRole.values())
-            if(role.getValue() == value)
+            if(role.getValue().equals(value))
                 return role;
         return null;
     }
