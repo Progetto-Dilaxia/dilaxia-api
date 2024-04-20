@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS tornei
     id            int PRIMARY KEY AUTO_INCREMENT,
     id_sport      smallint(4) UNSIGNED NOT NULL,
     id_campo      smallint(4) UNSIGNED NOT NULL,
-    coach         varchar(30)          NOT NULL,
-    prof_creatore varchar(30)          NOT NULL,
+    username_coach         varchar(30)          NOT NULL,
+    username_creatore varchar(30)          NOT NULL,
     descrizione   varchar(256),
     FOREIGN KEY (id_sport) REFERENCES sport (id),
     FOREIGN KEY (id_campo) REFERENCES campo (id),
@@ -60,18 +60,10 @@ CREATE TABLE IF NOT EXISTS tornei
 
 );
 
-CREATE TABLE IF NOT EXISTS iscrizioni_utenti_tornei
-(
-    id_torneo           int,
-    username_professore varchar(30) NOT NULL,
-    ruolo               varchar(1)  NOT NULL,
-    FOREIGN KEY (id_torneo) REFERENCES tornei (id),
-    FOREIGN KEY (username_professore) REFERENCES utenti (username)
-);
-
-CREATE TABLE IF NOT EXISTS iscrizioni_utenti_tornei
+CREATE TABLE IF NOT EXISTS iscrizioni_squadre_tornei
 (
     id_torneo         int,
-    username_studente varchar(30) NOT NULL,
-    FOREIGN KEY (id_torneo) REFERENCES tornei (id)
+    id_squadra int NOT NULL,
+    FOREIGN KEY (id_torneo) REFERENCES tornei (id),
+    FOREIGN KEY (username_studente) REFERENC
 );
