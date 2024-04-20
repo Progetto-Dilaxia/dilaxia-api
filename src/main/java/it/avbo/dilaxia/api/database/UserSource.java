@@ -62,4 +62,9 @@ public class UserSource {
 
         }
     }
+
+    public static boolean removeUser(String username) {
+        // TODO
+        return true;
+    }
 }

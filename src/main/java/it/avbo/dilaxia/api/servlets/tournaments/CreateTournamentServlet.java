@@ -1,6 +1,7 @@
 package it.avbo.dilaxia.api.servlets.tournaments;
 
 import com.google.gson.Gson;
+import it.avbo.dilaxia.api.entities.User;
 import it.avbo.dilaxia.api.entities.enums.UserRole;
 import it.avbo.dilaxia.api.models.tournaments.TournamentCreationModel;
 import it.avbo.dilaxia.api.services.Utils;
@@ -21,7 +22,13 @@ public class CreateTournamentServlet extends HttpServlet {
             return;
         }
 
-        if(req.getSession().getAttribute("role") == UserRole.Student) {
+        User user = (User) req.getSession().getAttribute("user");
+        if(user == null) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+
+        if(user.role == UserRole.Student) {
             resp.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Solo i professori e gli admin possono creare dei tornei"

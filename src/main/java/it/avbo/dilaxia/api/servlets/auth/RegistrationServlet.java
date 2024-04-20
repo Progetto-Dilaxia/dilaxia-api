@@ -95,7 +95,7 @@ public class RegistrationServlet extends HttpServlet {
                 );
                 return;
             }
-            req.getSession().setAttribute("role", user.role);
+            req.getSession().setAttribute("user", user);
             req.getSession().setMaxInactiveInterval(300);
             resp.setStatus(HttpServletResponse.SC_CREATED);
             return;
