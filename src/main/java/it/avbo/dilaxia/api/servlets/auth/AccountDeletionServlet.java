@@ -11,7 +11,6 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jdk.jshell.execution.Util;
 import org.wildfly.security.password.PasswordFactory;
 import org.wildfly.security.password.interfaces.SaltedSimpleDigestPassword;
 import org.wildfly.security.password.spec.SaltedHashPasswordSpec;
@@ -68,11 +67,12 @@ public class AccountDeletionServlet extends HttpServlet {
                 SaltedSimpleDigestPassword restored = (SaltedSimpleDigestPassword) passwordFactory.generatePassword(saltedHashSpec);
                 if (passwordFactory.verify(restored, accountDeletionModel.getPassword().toCharArray())) {
                     if(UserSource.removeUser(user.username)) {
+                        req.getSession().invalidate();
                         resp.setStatus(HttpServletResponse.SC_OK);
                         return;
                     }
                 }
-            } catch (InvalidKeySpecException | InvalidKeyException e) {
+            } catch (InvalidKeySpecException | InvalidKeyException ignored) {
             }
         }
         resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);

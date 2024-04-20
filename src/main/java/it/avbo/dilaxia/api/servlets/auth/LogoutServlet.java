@@ -13,7 +13,7 @@ public class LogoutServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         if(req.isRequestedSessionIdValid()) {
-            req.logout();
+            req.getSession().invalidate();
             resp.setStatus(HttpServletResponse.SC_OK);
         } else {
             resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
