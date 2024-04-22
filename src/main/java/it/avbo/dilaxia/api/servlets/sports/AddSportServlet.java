@@ -1,10 +1,12 @@
 package it.avbo.dilaxia.api.servlets.sports;
 
+import com.google.gson.JsonSyntaxException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 import java.io.IOException;
 import java.util.Optional;
 
@@ -20,56 +22,71 @@ import it.avbo.dilaxia.api.services.Utils;
 /**
  * Servlet implementation class AddSportServlet
  */
+@WebServlet("/sports/add")
 public class AddSportServlet extends HttpServlet {
-    
-	private final Gson gson = new Gson();
-    
-	protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
-		if(!request.isRequestedSessionIdValid()) {
+
+    private final Gson gson = new Gson();
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
+        if (!request.isRequestedSessionIdValid()) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
-		
-		User user = (User) request.getSession().getAttribute("user");
-		if(user == null) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            response.sendError(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Impossibile trovare i dati che corrispondono all'utente"
+            );
             return;
-		}
-		
-		if(user.role == UserRole.Student || user.role == UserRole.External || user.role == UserRole.Teacher) {
+        }
+
+        if (user.role != UserRole.Admin) {
             response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Solo gli admin possono creare dei tornei"
             );
             return;
         }
-		
-		Optional<String> data = Utils.stringFromReader(request.getReader());
-        if(data.isEmpty()) {
+
+        Optional<String> data = Utils.stringFromReader(request.getReader());
+        if (data.isEmpty()) {
             response.sendError(
                     HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
                     "Il corpo della richiesta è vuoto"
             );
             return;
         }
-        
-        SportCreationModel sportCreationModel = gson.fromJson(data.get(), SportCreationModel.class);
-        
-        Sport sportToAdd = new Sport(
-        		0,
-        		sportCreationModel.getNome_sport(),
-        		sportCreationModel.getDescrizione()
-        		);
-        boolean isSportAdded = SportSource.addSport(sportToAdd);
-	
-        if(isSportAdded == false) {
-        	response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        SportCreationModel sportCreationModel;
+        try {
+            sportCreationModel = gson.fromJson(data.get(), SportCreationModel.class);
+        } catch (
+                JsonSyntaxException e) {
+            response.sendError(
+                    HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
+                    "Il formato dei dati inviati non corrisponde alla documentazione"
+            );
             return;
         }
-        
+        Sport sportToAdd = new Sport(
+                0,
+                sportCreationModel.getName(),
+                sportCreationModel.getDescription()
+        );
+        boolean isSportAdded = SportSource.addSport(sportToAdd);
+
+        if (!isSportAdded) {
+            response.sendError(
+                    HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+                    "Errore durante l'aggiunta dello sport"
+            );
+            return;
+        }
+
         response.setStatus(HttpServletResponse.SC_CREATED);
-        
-	}
+
+    }
 
 }

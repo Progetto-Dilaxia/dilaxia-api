@@ -3,27 +3,24 @@ package it.avbo.dilaxia.api.entities;
 public class Sport{
 	
 	private int id;
-	private String nome_sport;
-	private String descrizione;
+	private String name;
+	private String description;
 
-	public Sport(int id, String nome_sport, String descrizione) {
-		super();
+	public Sport(int id, String name, String description) {
 		this.id = id;
-		this.nome_sport = nome_sport;
-		this.descrizione = descrizione;
+		this.name = name;
+		this.description = description;
 	}
 
 	public int getId() {
 		return id;
 	}
 
-	public String getNome_sport() {
-		return nome_sport;
+	public String getName() {
+		return name;
 	}
 
-
-	public String getDescrizione() {
-		return descrizione;
+	public String getDescription() {
+		return description;
 	}
-
 }

@@ -16,13 +16,13 @@ public class LoggerConfigurator extends TylerConfiguratorBase implements Configu
 
         RollingFileAppender appender = new RollingFileAppender();
         appender.setContext(context);
-        appender.setFile("${USER_HOME}/logs/dilaxia-api.log");
+        appender.setFile("/logs/dilaxia-api.log");
 
         // Configura una politica di rotazione basata sul tempo (ogni giorno)
         TimeBasedRollingPolicy rollingPolicy = new TimeBasedRollingPolicy();
         rollingPolicy.setContext(context);
         rollingPolicy.setParent(appender);
-        rollingPolicy.setFileNamePattern("${USER_HOME}/logs/dilaxia-api-%d{yyyy-MM-dd}.log");
+        rollingPolicy.setFileNamePattern("/logs/dilaxia-api-%d{yyyy-MM-dd}.log");
         rollingPolicy.setMaxHistory(30); // Conserva i log degli ultimi 30 giorni
         rollingPolicy.start();
 

@@ -19,8 +19,7 @@ public class SportSource {
 
 	public static Optional<Sport[]> getAllSports() {
 		String query = "SELECT * FROM sport;";
-		try {
-			Statement statement = DBWrapper.getConnection().createStatement();
+		try (Statement statement = DBWrapper.getConnection().createStatement()) {
 			ResultSet result = statement.executeQuery(query);
 			List<Sport> sports = new ArrayList<Sport>();
 			while (result.next()) {
@@ -35,7 +34,7 @@ public class SportSource {
 				sports.add(sport);
 
 			}
-			return Optional.of((Sport[])sports.toArray());
+			return Optional.of(sports.toArray(new Sport[0]));
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			logger.error("Unexpected error during statement execution:\n{}", e.getMessage(), e);
@@ -47,12 +46,12 @@ public class SportSource {
 	public static boolean addSport(Sport sport) {
 		
 		try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
-				INSERT INTO sport(id, nome_sport, descrizione)
-				VALUES (?, ?, ?)
+				INSERT INTO sport(nome_sport, descrizione)
+				VALUES (?, ?)
 				""")){
 
-			statement.setString(2, sport.getNome_sport());
-			statement.setString(3, sport.getDescrizione());
+			statement.setString(1, sport.getName());
+			statement.setString(2, sport.getDescription());
 			
 			statement.executeUpdate();
 			return true;

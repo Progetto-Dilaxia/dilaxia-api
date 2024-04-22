@@ -4,20 +4,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class SportCreationModel {
 
-	@SerializedName("id")
-	private int id;
-	@SerializedName("nome_sport")
-	private String nome_sport;
-	@SerializedName("descrizione")
-	private String descrizione;
+	@SerializedName("name")
+	private String name;
+	@SerializedName("description")
+	private String description;
 
-	public int getId() {
-		return id;
+	public String getName() {
+		return name;
 	}
-	public String getNome_sport() {
-		return nome_sport;
-	}
-	public String getDescrizione() {
-		return descrizione;
+
+	public String getDescription() {
+		return description;
 	}
 }
