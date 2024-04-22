@@ -37,7 +37,7 @@ public class TournamentSource {
         return Optional.empty();
     }
 
-    public static boolean addTournament(Tournament tournament) {
+    public static int addTournament(Tournament tournament) {
         try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
                     INSERT INTO tornei(id_sport, id_campo, coach, prof_creatore, descrizione)
                     values (?, ?, ?, ?, ?);
@@ -45,13 +45,17 @@ public class TournamentSource {
         ) {
             statement.setInt(1, tournament.sportId);
             statement.setInt(2, tournament.campId);
-            statement.setString(3, tournament.coach);
-            statement.setString(4, tournament.profCreator);
+            statement.setString(3, tournament.coachUsername);
+            statement.setString(4, tournament.creatorUsername);
             statement.setString(5, tournament.description);
             statement.executeUpdate();
-            return true;
+
+            ResultSet result = statement.getGeneratedKeys();
+            if (result.next()) {
+                return result.getInt("id");
+            }
         } catch (SQLException e) {
-            return false;
         }
+        return -1;
     }
 }

@@ -64,8 +64,8 @@ CREATE TABLE IF NOT EXISTS partite(
 	FOREIGN KEY (id_squadra2) REFERENCES squadre(id),
 	FOREIGN KEY (id_campo) REFERENCES campo(id),
 	FOREIGN KEY (username_creatore) REFERENCES utenti(username)
-
 );
+
 /*CREATE TABLE IF NOT EXISTS partite_amatoriali (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	id_campo smallint(4) UNSIGNED NOT NULL,
@@ -79,7 +79,6 @@ CREATE TABLE IF NOT EXISTS partite(
     	id_torneo int REFERENCES tornei(id),
 	FOREIGN KEY (id_campo) REFERENCES campo(id),
 	FOREIGN KEY (username_creatore) REFERENCES utenti(username)
-
 );*/
 
 -- P: principiante, I: intermedio, A: agonistico
@@ -103,8 +102,6 @@ CREATE TABLE IF NOT EXISTS iscrizioni_utenti_squadra(
 CREATE TABLE IF NOT EXISTS iscrizioni_squadre_tornei (
 	id_torneo int,
 	id_squadra smallint NOT NULL,
-	ruolo varchar(1) NOT NULL,
 	FOREIGN KEY (id_torneo) REFERENCES tornei(id),
 	FOREIGN KEY (id_squadra) REFERENCES squadre(id)
 );
-
