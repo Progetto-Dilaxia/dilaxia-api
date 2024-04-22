@@ -1,6 +1,10 @@
 package it.avbo.dilaxia.api.servlets.tournaments;
 
 import com.google.gson.Gson;
+import it.avbo.dilaxia.api.database.TournamentSource;
+import it.avbo.dilaxia.api.database.TournamentSubscriptionSource;
+import it.avbo.dilaxia.api.entities.Tournament;
+import it.avbo.dilaxia.api.entities.User;
 import it.avbo.dilaxia.api.entities.enums.UserRole;
 import it.avbo.dilaxia.api.models.tournaments.TournamentCreationModel;
 import it.avbo.dilaxia.api.services.Utils;
@@ -21,7 +25,13 @@ public class CreateTournamentServlet extends HttpServlet {
             return;
         }
 
-        if(req.getSession().getAttribute("role") == UserRole.Student) {
+        User user = (User) req.getSession().getAttribute("user");
+        if(user == null) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+
+        if(user.role == UserRole.Student || user.role == UserRole.External) {
             resp.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Solo i professori e gli admin possono creare dei tornei"
@@ -40,6 +50,25 @@ public class CreateTournamentServlet extends HttpServlet {
 
         TournamentCreationModel tournamentCreationModel = gson.fromJson(data.get(), TournamentCreationModel.class);
 
-        // TODO
+        Tournament tournamentToCreate = new Tournament(
+                0, // The id gets ignored
+                tournamentCreationModel.getSportId(),
+                tournamentCreationModel.getFieldId(),
+                tournamentCreationModel.getCoachUsername(),
+                user.username,
+                tournamentCreationModel.getDescription()
+        );
+
+        int tournamentId = TournamentSource.addTournament(tournamentToCreate);
+
+        if(tournamentId == -1) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+        if(!TournamentSubscriptionSource.addTournamentSubscriptions(tournamentCreationModel.getTeams(), tournamentId)) {
+            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            return;
+        }
+        resp.setStatus(HttpServletResponse.SC_CREATED);
     }
 }
