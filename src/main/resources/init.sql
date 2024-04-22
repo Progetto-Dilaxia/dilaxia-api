@@ -9,11 +9,17 @@ CREATE TABLE IF NOT EXISTS utenti (
 	salt varbinary(64) NOT NULL
 );
 
---Per il tipo: può essere Terra (T), Sintetico (S), Cemento (C)
+-- Per il tipo: può essere Terra (T), Sintetico (S), Cemento (C)
 CREATE TABLE IF NOT EXISTS campi (
 	id smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	indirizzo varchar(50) NOT NULL,
     	tipo varchar(1) NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS sport (
+	id smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+	nome_sport varchar(30) NOT NULL,
+	descrizione varchar(256)
 );
 
 CREATE TABLE IF NOT EXISTS squadre(
@@ -25,12 +31,6 @@ CREATE TABLE IF NOT EXISTS squadre(
 	FOREIGN KEY (username_coach) REFERENCES utenti(username)
 );
 
-CREATE TABLE IF NOT EXISTS sport (
-	id smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	nome_sport varchar(30) NOT NULL,
-	descrizione varchar(256)
-);
-
 CREATE TABLE IF NOT EXISTS tornei (
 	id int PRIMARY KEY AUTO_INCREMENT,
 	id_sport smallint UNSIGNED NOT NULL,
@@ -40,12 +40,12 @@ CREATE TABLE IF NOT EXISTS tornei (
     	data_inizio DATE,
     	data_fine DATE,
 	FOREIGN KEY (id_sport) REFERENCES sport(id),
-	FOREIGN KEY (id_campo) REFERENCES campo(id),
+	FOREIGN KEY (id_campo) REFERENCES campi(id),
 	FOREIGN KEY (username_creatore) REFERENCES utenti(username)
 
 );
 
---con anni_classi_partecipanti si intende Biennio (B), Triennio (T) o Misto (M), per genere si intende che il torneo è dedicato a Maschi (M), Femmine (F), o misto (M).
+-- con anni_classi_partecipanti si intende Biennio (B), Triennio (T) o Misto (M), per genere si intende che il torneo è dedicato a Maschi (M), Femmine (F), o misto (M).
 CREATE TABLE IF NOT EXISTS partite(
 	id int PRIMARY KEY AUTO_INCREMENT,
 	id_campo smallint UNSIGNED NOT NULL,
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS partite(
 	id_torneo int REFERENCES tornei(id),
 	FOREIGN KEY (id_squadra1) REFERENCES squadre(id),
 	FOREIGN KEY (id_squadra2) REFERENCES squadre(id),
-	FOREIGN KEY (id_campo) REFERENCES campo(id),
+	FOREIGN KEY (id_campo) REFERENCES campi(id),
 	FOREIGN KEY (username_creatore) REFERENCES utenti(username)
 );
 
@@ -95,13 +95,13 @@ CREATE TABLE IF NOT EXISTS iscrizioni_utenti_squadra(
 	username varchar(30) NOT NULL,
 	id_squadra smallint UNSIGNED NOT NULL,
 	FOREIGN KEY (username) REFERENCES utenti(username),
-	FOREIGN KEY (id_squadra) REFERENCES utenti(username),
+	FOREIGN KEY (id_squadra) REFERENCES squadre(id),
 	PRIMARY KEY(username, id_squadra)
 );
 
 CREATE TABLE IF NOT EXISTS iscrizioni_squadre_tornei (
 	id_torneo int,
-	id_squadra smallint NOT NULL,
+	id_squadra smallint UNSIGNED NOT NULL,
 	FOREIGN KEY (id_torneo) REFERENCES tornei(id),
 	FOREIGN KEY (id_squadra) REFERENCES squadre(id)
 );
