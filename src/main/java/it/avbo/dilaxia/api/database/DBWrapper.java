@@ -1,13 +1,22 @@
 package it.avbo.dilaxia.api.database;
 
 import org.mariadb.jdbc.MariaDbDataSource;
+import org.wildfly.security.password.PasswordFactory;
+import org.wildfly.security.password.interfaces.SaltedSimpleDigestPassword;
+import org.wildfly.security.password.spec.ClearPasswordSpec;
+
+import it.avbo.dilaxia.api.entities.User;
+import it.avbo.dilaxia.api.entities.enums.UserRole;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Date;
 
 public class DBWrapper {
     static private Connection connection;
@@ -48,6 +57,25 @@ public class DBWrapper {
         try (Statement statement = connection.createStatement()) {
             statement.execute(dbInitialization);
         } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        
+        try {
+            PasswordFactory passwordFactory = PasswordFactory.getInstance(SaltedSimpleDigestPassword.ALGORITHM_SALT_PASSWORD_DIGEST_SHA_256);
+        
+            SaltedSimpleDigestPassword digestedPassword = (SaltedSimpleDigestPassword) 
+            passwordFactory.generatePassword(new ClearPasswordSpec("admin".toCharArray()));
+            UserSource.addUser(new User(
+            		"Admin",
+            		"admin@avbo.it",
+            		'N',
+            		new Date(0),
+            		UserRole.Admin,
+            		digestedPassword.getDigest(),
+            		digestedPassword.getSalt()
+            		));
+            
+        } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);
         }
     }
