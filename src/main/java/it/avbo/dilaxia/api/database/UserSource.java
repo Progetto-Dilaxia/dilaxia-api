@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.Optional;
 
 public class UserSource {
-    private static Logger logger = LoggerFactory.getLogger(UserSource.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserSource.class);
 
     public static Optional<User> getUserByIdentifier(String identifier) {
         try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""

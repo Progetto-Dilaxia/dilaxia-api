@@ -35,25 +35,21 @@ public class TeamSource {
 	}
 
 	// ritorna l'id della squadra appena creata
-	public static int addTeam(Team team) {
+	public static boolean addTeam(Team team) {
 		try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
-				INSERT INTO squadre( nome, id_sport, username_coach)
+				INSERT INTO squadre(nome, id_sport, username_coach)
 				values(?,?,?);
 				""")) {
 			statement.setString(1, team.getName());
 			statement.setInt(2, team.getIdSport());
 			statement.setString(3, team.getUsernameCoach());
 
-			ResultSet result = statement.getGeneratedKeys();
-			if (result.next()) {
-				return result.getInt("id");
-			}
+			return true;
 
 		} catch (SQLException e) {
 			logger.error("Unexpected Error:{} ", e.getMessage(), e);
 		}
-
-		return -1;
+		return false;
 	}
 
 	public static boolean removeTeam(int id) {

@@ -1,6 +1,5 @@
 package it.avbo.dilaxia.api.servlets.teams;
 
-import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -11,38 +10,26 @@ import java.util.Optional;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 
-import it.avbo.dilaxia.api.database.SportSource;
 import it.avbo.dilaxia.api.database.TeamSource;
-import it.avbo.dilaxia.api.database.TournamentSource;
-import it.avbo.dilaxia.api.entities.Sport;
 import it.avbo.dilaxia.api.entities.Team;
-import it.avbo.dilaxia.api.entities.Tournament;
 import it.avbo.dilaxia.api.entities.User;
 import it.avbo.dilaxia.api.entities.enums.UserRole;
-import it.avbo.dilaxia.api.models.sports.SportCreationModel;
 import it.avbo.dilaxia.api.models.teams.TeamCreationModel;
 import it.avbo.dilaxia.api.services.Utils;
 
-/**
- * Servlet implementation class TeamServlet
- * 
- */
 
-@WebServlet("/teams")
+@WebServlet("/teams/*")
 public class TeamServlet extends HttpServlet {
 
 	private final Gson gson = new Gson();
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+			throws IOException {
 		if (!request.isRequestedSessionIdValid()) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
 			return;
 		}
+
 		int id;
 		try {
 			id = Integer.parseInt(request.getParameter("id"));
@@ -75,7 +62,7 @@ public class TeamServlet extends HttpServlet {
 			return;
 		}
 
-		if (user.role != UserRole.Admin || user.role != UserRole.Teacher) {
+		if (!(user.role == UserRole.Admin || user.role == UserRole.Teacher)) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
 					"Solo gli admin e i docenti possono creare dei team");
 			return;
@@ -99,8 +86,11 @@ public class TeamServlet extends HttpServlet {
 
 		);
 
-		if (TeamSource.addTeam(teamToAdd) == -1) {
-			response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Errore durante l'aggiunta dello sport");
+		if (!TeamSource.addTeam(teamToAdd)) {
+			response.sendError(
+					HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+					"Errore durante l'aggiunta dello sport"
+			);
 			return;
 		}
 
@@ -163,6 +153,6 @@ public class TeamServlet extends HttpServlet {
 		
 
 		
-	};
+	}
 
 }

@@ -2,9 +2,9 @@ package it.avbo.dilaxia.api.entities;
 
 public class Sport{
 	
-	private int id;
-	private String name;
-	private String description;
+	private final int id;
+	private final String name;
+	private final String description;
 
 	public Sport(int id, String name, String description) {
 		this.id = id;

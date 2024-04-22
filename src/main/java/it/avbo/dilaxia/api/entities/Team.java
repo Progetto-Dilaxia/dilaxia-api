@@ -1,10 +1,10 @@
 package it.avbo.dilaxia.api.entities;
 
 public class Team {
-	private int id;
-	private String name;
-	private int idSport;
-	private String usernameCoach;
+	private final int id;
+	private final String name;
+	private final int idSport;
+	private final String usernameCoach;
 	public Team(int id, String name, int idSport, String usernameCoach) {
 		super();
 		this.id = id;

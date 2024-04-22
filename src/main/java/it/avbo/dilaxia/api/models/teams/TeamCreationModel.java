@@ -7,7 +7,7 @@ public class TeamCreationModel {
 	@SerializedName("name")
 	private String name;
 	@SerializedName("sport")
-	private int sportId ;
+	private int sportId;
 	@SerializedName("username_coach")
 	private String usernameCoach;
 	
