@@ -55,6 +55,7 @@ public class TournamentSource {
                 return result.getInt("id");
             }
         } catch (SQLException e) {
+        	logger.error("Unexpected Error:{} ", e.getMessage(), e);
         }
         return -1;
     }

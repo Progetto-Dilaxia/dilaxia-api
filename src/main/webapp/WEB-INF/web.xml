@@ -41,4 +41,14 @@
     <servlet-name>AddSportServlet</servlet-name>
     <url-pattern>/AddSportServlet</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>TeamServlet</display-name>
+    <servlet-name>TeamServlet</servlet-name>
+    <servlet-class>it.avbo.dilaxia.api.servlets.teams.TeamServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>TeamServlet</servlet-name>
+    <url-pattern>/TeamServlet</url-pattern>
+  </servlet-mapping>
 </web-app>
