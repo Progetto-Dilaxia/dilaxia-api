@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS campi (
 
 CREATE TABLE IF NOT EXISTS sport (
 	id smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-	nome_sport varchar(30) NOT NULL,
+	nome_sport varchar(30) NOT NULL UNIQUE,
 	descrizione varchar(256)
 );
 
