@@ -12,8 +12,10 @@ CREATE TABLE IF NOT EXISTS utenti (
 -- Per il tipo: può essere Terra (T), Sintetico (S), Cemento (C)
 CREATE TABLE IF NOT EXISTS campi (
 	id smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    id_sport smallint,
 	indirizzo varchar(50) NOT NULL,
-    	tipo varchar(1) NOT NULL
+    tipo varchar(1) NOT NULL,
+    FOREIGN KEY (id_sport) REFERENCES sport(id)
 );
 
 CREATE TABLE IF NOT EXISTS sport (
@@ -51,12 +53,12 @@ CREATE TABLE IF NOT EXISTS partite(
 	id_campo smallint UNSIGNED NOT NULL,
 	username_creatore varchar(30) NOT NULL,
 	descrizione varchar(256),
-    	data_partita timestamp,
-    	anni_classe_partecipanti varchar(1),
-    	max_giocatori tinyint,
-    	min_giocatori tinyint,
-    	numero_giocatori_per_squadra tinyint,
-    	genere varchar(1),
+    data_partita timestamp,
+    anni_classe_partecipanti varchar(1),
+    max_giocatori tinyint,
+    min_giocatori tinyint,
+    numero_giocatori_per_squadra tinyint,
+    genere varchar(1),
 	id_squadra1 smallint unsigned NOT NULL,
 	id_squadra2 smallint unsigned NOT NULL,
 	id_torneo int REFERENCES tornei(id),

@@ -148,11 +148,6 @@ public class TeamServlet extends HttpServlet {
 	
 		response.setStatus(HttpServletResponse.SC_OK);
 		
-		
-		
-		
-
-		
 	}
 
 }
