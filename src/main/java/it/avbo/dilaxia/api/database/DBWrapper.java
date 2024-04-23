@@ -73,7 +73,7 @@ public class DBWrapper {
             		UserRole.Admin,
             		digestedPassword.getDigest(),
             		digestedPassword.getSalt()
-            		));
+            ));
             
         } catch (NoSuchAlgorithmException | InvalidKeySpecException e) {
             throw new RuntimeException(e);

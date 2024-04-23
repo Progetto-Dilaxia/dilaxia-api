@@ -18,7 +18,7 @@ import it.avbo.dilaxia.api.models.teams.TeamCreationModel;
 import it.avbo.dilaxia.api.services.Utils;
 
 
-@WebServlet("/teams/*")
+@WebServlet("/teams")
 public class TeamServlet extends HttpServlet {
 
 	private final Gson gson = new Gson();
@@ -89,7 +89,7 @@ public class TeamServlet extends HttpServlet {
 		if (!TeamSource.addTeam(teamToAdd)) {
 			response.sendError(
 					HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
-					"Errore durante l'aggiunta dello sport"
+					"Errore durante l'aggiunta della squadra"
 			);
 			return;
 		}
