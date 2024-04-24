@@ -25,7 +25,7 @@ public class DBWrapper {
     static {
         dataSource = new MariaDbDataSource();
         try {
-            dataSource.setUrl("jdbc:mariadb://localhost:3306/dilaxia?allowMultiQueries=true&createDatabaseIfNotExist=true");
+            dataSource.setUrl("jdbc:mariadb://localhost:3306/dilaxia?allowMultiQueries=true&createDatabaseIfNotExist=true&autoReconnect=true");
 
             dataSource.setUser("root");
             dataSource.setPassword("");
