@@ -50,6 +50,7 @@ CREATE TABLE IF NOT EXISTS tornei (
 -- con anni_classi_partecipanti si intende Biennio (B), Triennio (T) o Misto (M), per genere si intende che il torneo è dedicato a Maschi (M), Femmine (F), o misto (M).
 CREATE TABLE IF NOT EXISTS partite(
 	id int PRIMARY KEY AUTO_INCREMENT,
+    id_sport smallint UNSIGNED NOT NULL,
 	id_campo smallint UNSIGNED NOT NULL,
 	username_creatore varchar(30) NOT NULL,
 	descrizione varchar(256),
@@ -65,6 +66,7 @@ CREATE TABLE IF NOT EXISTS partite(
 	FOREIGN KEY (id_squadra1) REFERENCES squadre(id),
 	FOREIGN KEY (id_squadra2) REFERENCES squadre(id),
 	FOREIGN KEY (id_campo) REFERENCES campi(id),
+    FOREIGN KEY (id_sport) REFERENCES sport(id),
 	FOREIGN KEY (username_creatore) REFERENCES utenti(username)
 );
 
