@@ -40,19 +40,18 @@ public class RegistrationServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        Optional<String> data = Utils.stringFromReader(req.getReader());
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        Optional<String> data = Utils.stringFromReader(request.getReader());
 
         if(data.isEmpty()) {
-            resp.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
+            response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE);
             return;
         }
         RegistrationModel registrationModel;
         try {
             registrationModel = gson.fromJson(data.get(), RegistrationModel.class);
         } catch (JsonSyntaxException e) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
                     "Il formato dei dati inviati non corrisponde alla documentazione"
             );
@@ -61,7 +60,7 @@ public class RegistrationServlet extends HttpServlet {
 
         if(!(EmailValidator.getInstance().isValid(registrationModel.getEmail()) &&
                 usernameValidator.isValid(registrationModel.getUsername()))) {
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
@@ -89,20 +88,20 @@ public class RegistrationServlet extends HttpServlet {
             );
 
             if(!UserSource.addUser(user)) {
-                resp.sendError(
+                response.sendError(
                         HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                         "Impossibile aggiungere l'utente"
                 );
                 return;
             }
-            req.getSession().setAttribute("user", user);
-            req.getSession().setMaxInactiveInterval(1000);
-            resp.setStatus(HttpServletResponse.SC_CREATED);
+            request.getSession().setAttribute("user", user);
+            request.getSession().setMaxInactiveInterval(1000);
+            response.setStatus(HttpServletResponse.SC_CREATED);
             return;
         } catch (InvalidKeySpecException ignored) {
 
         }
-        resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
     }
     
 }

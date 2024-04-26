@@ -18,18 +18,17 @@ public class TournamentsServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
 
-    @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(!req.isRequestedSessionIdValid()) {
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if(!request.isRequestedSessionIdValid()) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
         int id;
         try {
-            id = Integer.parseInt(req.getParameter("id"));
+            id = Integer.parseInt(request.getParameter("id"));
         } catch (NumberFormatException ignored) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
                     "il parametro 'id' deve essere un numero"
             );
@@ -39,11 +38,11 @@ public class TournamentsServlet extends HttpServlet {
         Optional<Tournament> result = TournamentSource.getTournamentById(id);
 
         if(result.isPresent()) {
-            resp.setContentType("application/json");
-            resp.setCharacterEncoding("UTF-8");
-            resp.getWriter().print(gson.toJson(result.get()));
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().print(gson.toJson(result.get()));
             return;
         }
-        resp.sendError(HttpServletResponse.SC_NOT_FOUND);
+        response.sendError(HttpServletResponse.SC_NOT_FOUND);
     }
 }

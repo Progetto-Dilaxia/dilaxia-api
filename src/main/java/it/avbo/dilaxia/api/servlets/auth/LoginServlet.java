@@ -35,16 +35,16 @@ public class LoginServlet extends HttpServlet {
         }
     }
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if(req.isRequestedSessionIdValid()) {
-            resp.setStatus(Response.Status.OK.getStatusCode());
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if(request.isRequestedSessionIdValid()) {
+            response.setStatus(Response.Status.OK.getStatusCode());
             return;
         }
 
-        Optional<String> data = Utils.stringFromReader(req.getReader());
+        Optional<String> data = Utils.stringFromReader(request.getReader());
         if(data.isEmpty()) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
                     "Il corpo della richiesta è vuoto"
             );
@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
         try {
              loginModel = gson.fromJson(data.get(), LoginModel.class);
         } catch (JsonSyntaxException e) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
                     "Il formato dei dati inviati non corrisponde alla documentazione"
             );
@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
 
         Optional<User> result = UserSource.getUserByIdentifier(loginModel.getIdentifier());
         if(result.isEmpty()) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Impossibile trovare l'utente");
             return;
@@ -74,12 +74,12 @@ public class LoginServlet extends HttpServlet {
         try {
             SaltedSimpleDigestPassword restored = (SaltedSimpleDigestPassword) passwordFactory.generatePassword(saltedHashSpec);
             if(passwordFactory.verify(restored, loginModel.getPassword().toCharArray())) {
-                req.getSession().setAttribute("user", user);
-                req.getSession().setMaxInactiveInterval(1000);
-                resp.setStatus(HttpServletResponse.SC_OK);
+                request.getSession().setAttribute("user", user);
+                request.getSession().setMaxInactiveInterval(1000);
+                response.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (InvalidKeyException | InvalidKeySpecException ignored) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Impossibile creare la sessione utente"
             );

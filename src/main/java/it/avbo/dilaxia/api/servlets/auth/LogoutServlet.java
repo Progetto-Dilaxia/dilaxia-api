@@ -10,13 +10,13 @@ import java.io.IOException;
 
 @WebServlet("/auth/logout")
 public class LogoutServlet extends HttpServlet {
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(req.isRequestedSessionIdValid()) {
-            req.getSession().invalidate();
-            resp.setStatus(HttpServletResponse.SC_OK);
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if(request.isRequestedSessionIdValid()) {
+            request.getSession().invalidate();
+            response.setStatus(HttpServletResponse.SC_OK);
         } else {
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         }
     }
 }

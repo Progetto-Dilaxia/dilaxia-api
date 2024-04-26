@@ -32,16 +32,16 @@ public class AccountDeletionServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
-    @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws IOException {
-        if(!req.isRequestedSessionIdValid()) {
-            resp.sendError(HttpServletResponse.SC_FORBIDDEN);
+
+    protected void doDelete(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if(!request.isRequestedSessionIdValid()) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
             return;
         }
-        Optional<String> data = Utils.stringFromReader(req.getReader());
+        Optional<String> data = Utils.stringFromReader(request.getReader());
 
         if(data.isEmpty()) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
                     "Il corpo della richiesta è vuoto"
             );
@@ -52,28 +52,28 @@ public class AccountDeletionServlet extends HttpServlet {
         try{
         accountDeletionModel = gson.fromJson(data.get(), AccountDeletionModel.class);
         } catch (JsonSyntaxException e) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
                     "Il formato dei dati inviati non corrisponde alla documentazione"
             );
             return;
         }
 
-        User user = (User) req.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
         if(user != null) {
             SaltedHashPasswordSpec saltedHashSpec = new SaltedHashPasswordSpec(user.getPasswordHash(), user.getSalt());
             try {
                 SaltedSimpleDigestPassword restored = (SaltedSimpleDigestPassword) passwordFactory.generatePassword(saltedHashSpec);
                 if (passwordFactory.verify(restored, accountDeletionModel.getPassword().toCharArray())) {
                     if(UserSource.removeUser(user.getUsername())) {
-                        req.getSession().invalidate();
-                        resp.setStatus(HttpServletResponse.SC_OK);
+                        request.getSession().invalidate();
+                        response.setStatus(HttpServletResponse.SC_OK);
                         return;
                     }
                 }
             } catch (InvalidKeySpecException | InvalidKeyException ignored) {
             }
         }
-        resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
     }
 }

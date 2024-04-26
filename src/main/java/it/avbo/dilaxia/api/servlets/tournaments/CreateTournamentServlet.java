@@ -18,30 +18,30 @@ import java.util.Optional;
 
 public class CreateTournamentServlet extends HttpServlet {
     private final Gson gson = new Gson();
-    @Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        if(!req.isRequestedSessionIdValid()) {
-            resp.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        if(!request.isRequestedSessionIdValid()) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;
         }
 
-        User user = (User) req.getSession().getAttribute("user");
+        User user = (User) request.getSession().getAttribute("user");
         if(user == null) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
 
         if(user.getRole() == UserRole.Student || user.getRole() == UserRole.External) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Solo i professori e gli admin possono creare dei tornei"
             );
             return;
         }
 
-        Optional<String> data = Utils.stringFromReader(req.getReader());
+        Optional<String> data = Utils.stringFromReader(request.getReader());
         if(data.isEmpty()) {
-            resp.sendError(
+            response.sendError(
                     HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE,
                     "Il corpo della richiesta è vuoto"
             );
@@ -62,13 +62,13 @@ public class CreateTournamentServlet extends HttpServlet {
         int tournamentId = TournamentSource.addTournament(tournamentToCreate);
 
         if(tournamentId == -1) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
         if(!TournamentSubscriptionSource.addTournamentSubscriptions(tournamentCreationModel.getTeams(), tournamentId)) {
-            resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             return;
         }
-        resp.setStatus(HttpServletResponse.SC_CREATED);
+        response.setStatus(HttpServletResponse.SC_CREATED);
     }
 }
