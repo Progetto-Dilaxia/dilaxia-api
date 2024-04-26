@@ -1,11 +1,11 @@
 package it.avbo.dilaxia.api.entities;
 
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class Game {
     private int id;
+    private int sportId;
     private int fieldId;
     private String creatorUsername;
     private String gameDescription;
@@ -19,8 +19,9 @@ public class Game {
     private int idTeam2;
     private int tournamentId;
 
-    public Game(int id, int fieldId, String creatorUsername, String gameDescription, Timestamp gameDate, String classYears, int maxPlayers, int minPlayers, int playersPerTeam, String sex, int idTeam1, int idTeam2, int tournamentId) {
+    public Game(int id, int sportId, int fieldId, String creatorUsername, String gameDescription, Timestamp gameDate, String classYears, int maxPlayers, int minPlayers, int playersPerTeam, String sex, int idTeam1, int idTeam2, int tournamentId) {
         this.id = id;
+        this.sportId = sportId;
         this.fieldId = fieldId;
         this.creatorUsername = creatorUsername;
         this.gameDescription = gameDescription;
@@ -33,6 +34,14 @@ public class Game {
         this.idTeam1 = idTeam1;
         this.idTeam2 = idTeam2;
         this.tournamentId = tournamentId;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public int getSportId() {
+        return sportId;
     }
 
     public String getCreatorUsername() {

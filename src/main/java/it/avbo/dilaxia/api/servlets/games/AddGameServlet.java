@@ -71,6 +71,7 @@ public class AddGameServlet extends HttpServlet {
         gameToAdd = new Game(
                 0,
                 gameCreationModel.getFieldId(),
+                gameCreationModel.getSportId(),
                 user.username,
                 gameCreationModel.getGameDescription(),
                 Timestamp.valueOf(gameCreationModel.getGameDate()),
@@ -88,8 +89,9 @@ public class AddGameServlet extends HttpServlet {
             return;
         }
 
-        boolean isGameAdded = GameSource.addGame(gameToAdd);
+        String isGameAdded = GameSource.addGame(gameToAdd);
 
+        /*
         if (!isGameAdded) {
             response.sendError(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
@@ -97,7 +99,8 @@ public class AddGameServlet extends HttpServlet {
             );
             return;
         }
-
+        */
         response.setStatus(HttpServletResponse.SC_CREATED);
+        response.getWriter().print(isGameAdded);
     }
 }

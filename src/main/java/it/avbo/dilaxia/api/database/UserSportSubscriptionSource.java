@@ -1,10 +1,8 @@
 package it.avbo.dilaxia.api.database;
 
-import it.avbo.dilaxia.api.entities.Team;
 import it.avbo.dilaxia.api.entities.UserSportSubscription;
 import it.avbo.dilaxia.api.entities.enums.ProfessionalLevel;
 
-import javax.swing.text.html.Option;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;

@@ -14,13 +14,14 @@ public class GameSource {
     public static boolean addGame(Game game) {
 
         try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
-				INSERT INTO partite(id_campo, username_creatore, descrizione,
+				INSERT INTO partite(id_campo,id_sport, username_creatore, descrizione,
                     data_partita, anni_classe_partecipanti, max_giocatori, min_giocatori,
-                    numero_giocatori_per_squadra, genere, id_squadra1, id_squadra_2, id_torneo)
+                    numero_giocatori_per_squadra, genere, id_squadra1, id_squadra2, id_torneo)
 				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
 				""")){
 
             statement.setInt(1, game.getFieldId());
+            statement.setInt(1, game.getSportId());
             statement.setString(2, game.getCreatorUsername());
             statement.setString(3, game.getGameDescription());
             statement.setTimestamp(4, game.getGameDate());

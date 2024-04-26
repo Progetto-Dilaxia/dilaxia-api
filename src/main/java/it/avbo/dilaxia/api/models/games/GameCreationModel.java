@@ -5,30 +5,36 @@ import com.google.gson.annotations.SerializedName;
 public class GameCreationModel {
 
     @SerializedName("field")
-    public int fieldId;
+    private int fieldId;
+    @SerializedName("sport")
+    private int sportId;
     @SerializedName("description")
-    public String gameDescription;
+    private String gameDescription;
     @SerializedName("game_date")
-    public String gameDate;
+    private String gameDate;
     @SerializedName("participants_class_year")
-    public String classYears;
+    private String classYears;
     @SerializedName("max_players")
-    public int maxPlayers;
+    private int maxPlayers;
     @SerializedName("min_players")
-    public int minPlayers;
+    private int minPlayers;
     @SerializedName("total_players_per_team")
-    public int playersPerTeam;
+    private int playersPerTeam;
     @SerializedName("sex")
-    public String sex;
+    private String sex;
     @SerializedName("id_team_1")
-    public int idTeam1;
+    private int idTeam1;
     @SerializedName("id_team_2")
-    public int idTeam2;
+    private int idTeam2;
     @SerializedName("tournament")
-    public int tournamentId;
+    private int tournamentId;
 
     public int getFieldId() {
         return fieldId;
+    }
+
+    public int getSportId() {
+        return sportId;
     }
 
     public String getGameDescription() {
