@@ -96,7 +96,7 @@ public class RegistrationServlet extends HttpServlet {
                 return;
             }
             req.getSession().setAttribute("user", user);
-            req.getSession().setMaxInactiveInterval(300);
+            req.getSession().setMaxInactiveInterval(1000);
             resp.setStatus(HttpServletResponse.SC_CREATED);
             return;
         } catch (InvalidKeySpecException ignored) {

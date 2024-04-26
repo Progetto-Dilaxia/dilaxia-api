@@ -75,7 +75,7 @@ public class LoginServlet extends HttpServlet {
             SaltedSimpleDigestPassword restored = (SaltedSimpleDigestPassword) passwordFactory.generatePassword(saltedHashSpec);
             if(passwordFactory.verify(restored, loginModel.getPassword().toCharArray())) {
                 req.getSession().setAttribute("user", user);
-                req.getSession().setMaxInactiveInterval(300);
+                req.getSession().setMaxInactiveInterval(1000);
                 resp.setStatus(HttpServletResponse.SC_OK);
             }
         } catch (InvalidKeyException | InvalidKeySpecException ignored) {
