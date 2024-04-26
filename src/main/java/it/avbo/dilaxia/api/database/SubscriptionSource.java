@@ -1,6 +1,7 @@
 package it.avbo.dilaxia.api.database;
 
 import it.avbo.dilaxia.api.entities.UserSportSubscription;
+import it.avbo.dilaxia.api.entities.UserTeamSubscription;
 import it.avbo.dilaxia.api.entities.enums.ProfessionalLevel;
 import it.avbo.dilaxia.api.models.tournaments.TournamentSubscriptionModel;
 
@@ -51,6 +52,18 @@ public class SubscriptionSource {
         return false;
     }
 
+    public static boolean addUserTeamSubscription(UserTeamSubscription userTeamSubscription) {
+        try(PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
+                INSERT INTO iscrizioni_utenti_squadra(username, id_squadra)
+                VALUES(?,?)
+                """)) {
+            statement.setString(1, userTeamSubscription.getUsername());
+            statement.setInt(2, userTeamSubscription.getTeamId());
+            return true;
+        }catch (SQLException ignored) {
+            return false;
+        }
+    }
 
     public static boolean addTournamentSubscription(TournamentSubscriptionModel tournamentSubscription) {
         try(PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
@@ -64,4 +77,6 @@ public class SubscriptionSource {
             return false;
         }
     }
+
+
 }

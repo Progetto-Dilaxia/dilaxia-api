@@ -23,7 +23,7 @@ public class SportSubscriptionServlet extends HttpServlet {
 
     private final Gson gson = new Gson();
 
-    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
 
         if (!request.isRequestedSessionIdValid()) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
