@@ -31,7 +31,7 @@ public class CreateTournamentServlet extends HttpServlet {
             return;
         }
 
-        if(user.role == UserRole.Student || user.role == UserRole.External) {
+        if(user.getRole() == UserRole.Student || user.getRole() == UserRole.External) {
             resp.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Solo i professori e gli admin possono creare dei tornei"
@@ -55,7 +55,7 @@ public class CreateTournamentServlet extends HttpServlet {
                 tournamentCreationModel.getSportId(),
                 tournamentCreationModel.getFieldId(),
                 tournamentCreationModel.getCoachUsername(),
-                user.username,
+                user.getUsername(),
                 tournamentCreationModel.getDescription()
         );
 

@@ -47,13 +47,13 @@ public class UserSource {
                     INSERT INTO utenti(username, email, sesso, data_nascita, ruolo, password_hash, salt)
                    VALUES (?, ?, ?, ?, ?, ?, ?);
                 """)) {
-            statement.setString(1, user.username);
-            statement.setString(2, user.email);
-            statement.setString(3, String.valueOf(user.sex));
-            statement.setDate(4, user.birthday);
-            statement.setString(5, user.role.getValue());
-            statement.setBytes(6, user.passwordHash);
-            statement.setBytes(7, user.salt);
+            statement.setString(1, user.getUsername());
+            statement.setString(2, user.getEmail());
+            statement.setString(3, String.valueOf(user.getSex()));
+            statement.setDate(4, user.getBirthday());
+            statement.setString(5, user.getRole().getValue());
+            statement.setBytes(6, user.getPasswordHash());
+            statement.setBytes(7, user.getSalt());
 
             statement.executeUpdate();
             return true;

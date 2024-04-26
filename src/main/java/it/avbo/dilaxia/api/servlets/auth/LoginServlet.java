@@ -69,7 +69,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
         User user = result.get();
-        SaltedHashPasswordSpec saltedHashSpec = new SaltedHashPasswordSpec(user.passwordHash, user.salt);
+        SaltedHashPasswordSpec saltedHashSpec = new SaltedHashPasswordSpec(user.getPasswordHash(), user.getSalt());
 
         try {
             SaltedSimpleDigestPassword restored = (SaltedSimpleDigestPassword) passwordFactory.generatePassword(saltedHashSpec);

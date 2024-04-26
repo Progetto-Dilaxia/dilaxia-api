@@ -5,13 +5,13 @@ import it.avbo.dilaxia.api.entities.enums.UserRole;
 import java.sql.Date;
 
 public class User {
-    public final String username;
-    public final String email;
-    public final char sex;
-    public final Date birthday;
-    public final UserRole role;
-    public final byte[] passwordHash;
-    public final byte[] salt;
+    private final String username;
+    private final String email;
+    private final char sex;
+    private final Date birthday;
+    private final UserRole role;
+    private final byte[] passwordHash;
+    private final byte[] salt;
 
     public User(String username, String email, char sex, Date birthday, UserRole role, byte[] passwordHash, byte[] salt) {
         this.username = username;
@@ -21,5 +21,33 @@ public class User {
         this.role = role;
         this.passwordHash = passwordHash;
         this.salt = salt;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public char getSex() {
+        return sex;
+    }
+
+    public Date getBirthday() {
+        return birthday;
+    }
+
+    public UserRole getRole() {
+        return role;
+    }
+
+    public byte[] getPasswordHash() {
+        return passwordHash;
+    }
+
+    public byte[] getSalt() {
+        return salt;
     }
 }

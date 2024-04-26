@@ -43,11 +43,11 @@ public class TournamentSource {
                     values (?, ?, ?, ?, ?);
                 """)
         ) {
-            statement.setInt(1, tournament.sportId);
-            statement.setInt(2, tournament.campId);
-            statement.setString(3, tournament.coachUsername);
-            statement.setString(4, tournament.creatorUsername);
-            statement.setString(5, tournament.description);
+            statement.setInt(1, tournament.getSportId());
+            statement.setInt(2, tournament.getCampId());
+            statement.setString(3, tournament.getCoachUsername());
+            statement.setString(4, tournament.getCreatorUsername());
+            statement.setString(5, tournament.getDescription());
             statement.executeUpdate();
 
             ResultSet result = statement.getGeneratedKeys();

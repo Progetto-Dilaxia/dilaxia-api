@@ -4,16 +4,16 @@ import com.google.gson.annotations.SerializedName;
 
 public class AddFieldModel {
     @SerializedName("name")
-    public String name;
+    private String name;
 
     @SerializedName("address")
-    public String address;
+    private String address;
 
     @SerializedName("sport")
-    public int sportId;
+    private int sportId;
 
     @SerializedName("type")
-    public String type;
+    private String type;
 
     public String getName() {
         return name;

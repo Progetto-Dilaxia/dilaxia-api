@@ -81,7 +81,7 @@ public class FieldsServlet extends HttpServlet {
             return;
         }
 
-        if (user.role != UserRole.Admin) {
+        if (user.getRole() != UserRole.Admin) {
             response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Solo gli admin possono aggiungere dei campi da gioco"
@@ -150,7 +150,7 @@ public class FieldsServlet extends HttpServlet {
             return;
         }
 
-        if (user.role != UserRole.Admin) {
+        if (user.getRole() != UserRole.Admin) {
             response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Solo gli admin possono rimuovere dei campi da gioco"

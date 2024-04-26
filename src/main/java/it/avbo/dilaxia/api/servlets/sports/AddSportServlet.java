@@ -43,7 +43,7 @@ public class AddSportServlet extends HttpServlet {
             return;
         }
 
-        if (user.role != UserRole.Admin) {
+        if (user.getRole() != UserRole.Admin) {
             response.sendError(
                     HttpServletResponse.SC_UNAUTHORIZED,
                     "Solo gli admin possono creare dei tornei"

@@ -43,7 +43,7 @@ public class AddSportSubscriptionServlet extends HttpServlet {
                 return;
             }
 
-            if (user.role != UserRole.Student) {
+            if (user.getRole() != UserRole.Student) {
                 response.sendError(
                         HttpServletResponse.SC_UNAUTHORIZED,
                         "Solo gli studenti possono iscriversi a uno sport"
@@ -72,7 +72,7 @@ public class AddSportSubscriptionServlet extends HttpServlet {
             }
             UserSportSubscription userSportSubscription = new UserSportSubscription(
                     sportSubscriptionModel.getSportId(),
-                    user.username,
+                    user.getUsername(),
                     ProfessionalLevel.fromValue(sportSubscriptionModel.getProfessionalLevel())
             );
 

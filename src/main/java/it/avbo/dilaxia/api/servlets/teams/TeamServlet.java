@@ -62,7 +62,7 @@ public class TeamServlet extends HttpServlet {
 			return;
 		}
 
-		if (!(user.role == UserRole.Admin || user.role == UserRole.Teacher)) {
+		if (!(user.getRole() == UserRole.Admin || user.getRole() == UserRole.Teacher)) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
 					"Solo gli admin e i docenti possono creare dei team");
 			return;
@@ -130,7 +130,7 @@ public class TeamServlet extends HttpServlet {
 		}
 		
 
-		if (user.role != UserRole.Admin || (user.username).equals(result.get().getUsernameCoach())) {
+		if (user.getRole() != UserRole.Admin || (user.getUsername()).equals(result.get().getUsernameCoach())) {
 			response.sendError(HttpServletResponse.SC_UNAUTHORIZED,
 					"Solo gli admin e i docenti possono creare dei team");
 			return;

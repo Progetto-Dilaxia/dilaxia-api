@@ -61,11 +61,11 @@ public class AccountDeletionServlet extends HttpServlet {
 
         User user = (User) req.getSession().getAttribute("user");
         if(user != null) {
-            SaltedHashPasswordSpec saltedHashSpec = new SaltedHashPasswordSpec(user.passwordHash, user.salt);
+            SaltedHashPasswordSpec saltedHashSpec = new SaltedHashPasswordSpec(user.getPasswordHash(), user.getSalt());
             try {
                 SaltedSimpleDigestPassword restored = (SaltedSimpleDigestPassword) passwordFactory.generatePassword(saltedHashSpec);
                 if (passwordFactory.verify(restored, accountDeletionModel.getPassword().toCharArray())) {
-                    if(UserSource.removeUser(user.username)) {
+                    if(UserSource.removeUser(user.getUsername())) {
                         req.getSession().invalidate();
                         resp.setStatus(HttpServletResponse.SC_OK);
                         return;
