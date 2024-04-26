@@ -21,18 +21,18 @@ public class GameSource {
 				""")){
 
             statement.setInt(1, game.getFieldId());
-            statement.setInt(1, game.getSportId());
-            statement.setString(2, game.getCreatorUsername());
-            statement.setString(3, game.getGameDescription());
-            statement.setTimestamp(4, game.getGameDate());
-            statement.setString(5, game.getClassYears());
-            statement.setInt(6, game.getMaxPlayers());
-            statement.setInt(7, game.getMinPlayers());
-            statement.setInt(8, game.getPlayersPerTeam());
-            statement.setString(9, game.getSex());
-            statement.setInt(10, game.getIdTeam1());
-            statement.setInt(11, game.getIdTeam2());
-            statement.setInt(12, game.getTournamentId());
+            statement.setInt(2, game.getSportId());
+            statement.setString(3, game.getCreatorUsername());
+            statement.setString(4, game.getGameDescription());
+            statement.setTimestamp(5, game.getGameDate());
+            statement.setString(6, game.getClassYears());
+            statement.setInt(7, game.getMaxPlayers());
+            statement.setInt(8, game.getMinPlayers());
+            statement.setInt(9, game.getPlayersPerTeam());
+            statement.setString(10, game.getSex());
+            statement.setInt(11, game.getIdTeam1());
+            statement.setInt(12, game.getIdTeam2());
+            statement.setInt(13, game.getTournamentId());
 
             statement.executeUpdate();
             return true;
