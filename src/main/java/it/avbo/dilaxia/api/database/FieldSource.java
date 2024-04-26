@@ -69,6 +69,7 @@ public class FieldSource {
             INSERT INTO campi(id_sport,indirizzo, tipo)
             VALUES (?,?,?);
         """)) {
+            statement.setInt(1, field.getSportId());
             statement.setString(2, field.getAddress());
             statement.setString(3, field.getFieldType().getValue());
             statement.executeUpdate();

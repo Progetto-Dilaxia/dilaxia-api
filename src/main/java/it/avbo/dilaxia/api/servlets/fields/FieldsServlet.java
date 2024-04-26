@@ -66,7 +66,7 @@ public class FieldsServlet extends HttpServlet {
         );
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    protected void doPut(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (!request.isRequestedSessionIdValid()) {
             response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
             return;

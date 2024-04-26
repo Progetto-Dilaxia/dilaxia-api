@@ -9,19 +9,19 @@ CREATE TABLE IF NOT EXISTS utenti (
 	salt varbinary(64) NOT NULL
 );
 
--- Per il tipo: può essere Terra (T), Sintetico (S), Cemento (C)
-CREATE TABLE IF NOT EXISTS campi (
-	id smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
-    id_sport smallint,
-	indirizzo varchar(50) NOT NULL,
-    tipo varchar(1) NOT NULL,
-    FOREIGN KEY (id_sport) REFERENCES sport(id)
-);
-
 CREATE TABLE IF NOT EXISTS sport (
 	id smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
 	nome_sport varchar(30) NOT NULL UNIQUE,
 	descrizione varchar(256)
+);
+
+-- Per il tipo: può essere Terra (T), Sintetico (S), Cemento (C)
+CREATE TABLE IF NOT EXISTS campi (
+    id smallint UNSIGNED PRIMARY KEY AUTO_INCREMENT,
+    id_sport smallint UNSIGNED NOT NULL,
+    indirizzo varchar(50) NOT NULL,
+    tipo varchar(1) NOT NULL,
+    FOREIGN KEY (id_sport) REFERENCES sport(id)
 );
 
 CREATE TABLE IF NOT EXISTS squadre(
