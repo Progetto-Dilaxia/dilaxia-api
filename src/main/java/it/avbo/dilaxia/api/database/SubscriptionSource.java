@@ -2,6 +2,7 @@ package it.avbo.dilaxia.api.database;
 
 import it.avbo.dilaxia.api.entities.UserSportSubscription;
 import it.avbo.dilaxia.api.entities.enums.ProfessionalLevel;
+import it.avbo.dilaxia.api.models.tournaments.TournamentSubscriptionModel;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,8 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserSportSubscriptionSource {
-    public static Optional<UserSportSubscription[]> getAllUserSubscriptions(String userId) {
+public class SubscriptionSource {
+    public static Optional<UserSportSubscription[]> getAllUserSportSubscriptions(String userId) {
         try(PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
            SELECT * FROM iscrizioni_utenti_sport WHERE studente = ?; 
        """)) {
@@ -33,10 +34,10 @@ public class UserSportSubscriptionSource {
         return Optional.empty();
     }
 
-    public static boolean addUserSubscription (UserSportSubscription userSportSubscription){
+    public static boolean addUserSportSubscription(UserSportSubscription userSportSubscription){
         try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
 				INSERT INTO iscrizioni_utenti_sport(id_sport, studente, livello_professionista)
-				values(?,?,?)
+				VALUES (?,?,?)
 				""")) {
             statement.setInt(1, userSportSubscription.getSportId());
             statement.setString(2, userSportSubscription.getStudent());
@@ -48,5 +49,19 @@ public class UserSportSubscriptionSource {
 
         }
         return false;
+    }
+
+
+    public static boolean addTournamentSubscription(TournamentSubscriptionModel tournamentSubscription) {
+        try(PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
+              INSERT INTO iscrizioni_squadre_tornei(id_torneo, id_squadra)
+              VALUES (?,?)
+              """)) {
+            statement.setInt(1, tournamentSubscription.getTournamentId());
+            statement.setInt(2, tournamentSubscription.getTeamId());
+            return true;
+        }catch (SQLException ignored) {
+            return false;
+        }
     }
 }
