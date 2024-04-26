@@ -23,7 +23,7 @@ public class GameSource {
             statement.setInt(1, game.getFieldId());
             statement.setString(2, game.getCreatorUsername());
             statement.setString(3, game.getGameDescription());
-            statement.setDate(4, game.getGameDate());
+            statement.setTimestamp(4, game.getGameDate());
             statement.setString(5, game.getClassYears());
             statement.setInt(6, game.getMaxPlayers());
             statement.setInt(7, game.getMinPlayers());

@@ -4,27 +4,27 @@ import com.google.gson.annotations.SerializedName;
 
 public class GameCreationModel {
 
-    @SerializedName("id_campo")
+    @SerializedName("field")
     public int fieldId;
-    @SerializedName("descrizione")
+    @SerializedName("description")
     public String gameDescription;
-    @SerializedName("data_partita")
+    @SerializedName("game_date")
     public String gameDate;
-    @SerializedName("anni_classe_partecipanti")
+    @SerializedName("participants_class_year")
     public String classYears;
-    @SerializedName("max_giocatori")
+    @SerializedName("max_players")
     public int maxPlayers;
-    @SerializedName("min_giocatori")
+    @SerializedName("min_players")
     public int minPlayers;
-    @SerializedName("numero_giocatori_per_squadra")
+    @SerializedName("total_players_per_team")
     public int playersPerTeam;
-    @SerializedName("genere")
+    @SerializedName("sex")
     public String sex;
-    @SerializedName("id_squadra1")
+    @SerializedName("id_team_1")
     public int idTeam1;
-    @SerializedName("id_squadra2")
+    @SerializedName("id_team_2")
     public int idTeam2;
-    @SerializedName("id_torneo")
+    @SerializedName("tournament")
     public int tournamentId;
 
     public int getFieldId() {

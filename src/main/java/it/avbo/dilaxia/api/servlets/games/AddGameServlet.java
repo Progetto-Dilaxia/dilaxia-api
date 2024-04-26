@@ -14,7 +14,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
-import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Optional;
 
 @WebServlet("/games")
@@ -65,12 +65,15 @@ public class AddGameServlet extends HttpServlet {
             );
             return;
         }
-        Game gameToAdd = new Game(
+        Game gameToAdd;
+
+        try{
+        gameToAdd = new Game(
                 0,
                 gameCreationModel.getFieldId(),
                 user.username,
                 gameCreationModel.getGameDescription(),
-                Date.valueOf(gameCreationModel.getGameDate()),
+                Timestamp.valueOf(gameCreationModel.getGameDate()),
                 gameCreationModel.getClassYears(),
                 gameCreationModel.getMaxPlayers(),
                 gameCreationModel.getMinPlayers(),
@@ -80,6 +83,11 @@ public class AddGameServlet extends HttpServlet {
                 gameCreationModel.getIdTeam2(),
                 gameCreationModel.getTournamentId()
         );
+        } catch (IllegalArgumentException ignored) {
+            response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Formato della data errato");
+            return;
+        }
+
         boolean isGameAdded = GameSource.addGame(gameToAdd);
 
         if (!isGameAdded) {
@@ -91,7 +99,5 @@ public class AddGameServlet extends HttpServlet {
         }
 
         response.setStatus(HttpServletResponse.SC_CREATED);
-
     }
-
 }
