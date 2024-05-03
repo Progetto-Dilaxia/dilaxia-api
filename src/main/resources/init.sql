@@ -39,8 +39,8 @@ CREATE TABLE IF NOT EXISTS tornei (
 	id_campo smallint UNSIGNED NOT NULL,
 	username_creatore varchar(30) NOT NULL,
 	descrizione varchar(256),
-    	data_inizio DATE,
-    	data_fine DATE,
+    data_inizio DATE,
+    data_fine DATE,
 	FOREIGN KEY (id_sport) REFERENCES sport(id),
 	FOREIGN KEY (id_campo) REFERENCES campi(id),
 	FOREIGN KEY (username_creatore) REFERENCES utenti(username)

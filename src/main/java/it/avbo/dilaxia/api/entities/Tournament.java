@@ -4,15 +4,13 @@ public class Tournament {
     private final int id;
     private final int sportId;
     private final int campId;
-    private final String coachUsername;
     private final String creatorUsername;
     private final String description;
 
-    public Tournament(int id, int sportId, int campId, String coachUsername, String creatorUsername, String description) {
+    public Tournament(int id, int sportId, int campId, String creatorUsername, String description) {
         this.id = id;
         this.sportId = sportId;
         this.campId = campId;
-        this.coachUsername = coachUsername;
         this.creatorUsername = creatorUsername;
         this.description = description;
     }
@@ -27,10 +25,6 @@ public class Tournament {
 
     public int getCampId() {
         return campId;
-    }
-
-    public String getCoachUsername() {
-        return coachUsername;
     }
 
     public String getCreatorUsername() {

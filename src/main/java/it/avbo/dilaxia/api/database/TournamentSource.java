@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Optional;
 
 public class TournamentSource {
@@ -27,8 +28,8 @@ public class TournamentSource {
                         result.getInt("id"),
                         result.getInt("id_sport"),
                         result.getInt("id_campo"),
-                        result.getString("coach"),
-                        result.getString("prof_creatore"), result.getString("descrizione")
+                        result.getString("username_creatore"),
+                        result.getString("descrizione")
                 ));
             }
         } catch (SQLException e) {
@@ -39,20 +40,19 @@ public class TournamentSource {
 
     public static int addTournament(Tournament tournament) {
         try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
-                    INSERT INTO tornei(id_sport, id_campo, coach, prof_creatore, descrizione)
-                    values (?, ?, ?, ?, ?);
-                """)
+                    INSERT INTO tornei(id_sport, id_campo, username_creatore, descrizione)
+                    values (?, ?, ?, ?);
+                """, Statement.RETURN_GENERATED_KEYS)
         ) {
             statement.setInt(1, tournament.getSportId());
             statement.setInt(2, tournament.getCampId());
-            statement.setString(3, tournament.getCoachUsername());
-            statement.setString(4, tournament.getCreatorUsername());
-            statement.setString(5, tournament.getDescription());
+            statement.setString(3, tournament.getCreatorUsername());
+            statement.setString(4, tournament.getDescription());
             statement.executeUpdate();
 
             ResultSet result = statement.getGeneratedKeys();
             if (result.next()) {
-                return result.getInt("id");
+                return result.getInt(1);
             }
         } catch (SQLException e) {
         	logger.error("Unexpected Error:{} ", e.getMessage(), e);

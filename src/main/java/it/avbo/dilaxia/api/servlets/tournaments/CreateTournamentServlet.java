@@ -56,19 +56,26 @@ public class CreateTournamentServlet extends HttpServlet {
                 0, // The id gets ignored
                 tournamentCreationModel.getSportId(),
                 tournamentCreationModel.getFieldId(),
-                tournamentCreationModel.getCoachUsername(),
                 user.getUsername(),
                 tournamentCreationModel.getDescription()
         );
+        
 
         int tournamentId = TournamentSource.addTournament(tournamentToCreate);
 
         if(tournamentId == -1) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(
+            		HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+            		"Impossibile aggiungere il torneo"
+            	);
             return;
         }
+
         if(!TournamentSubscriptionSource.addTournamentSubscriptions(tournamentCreationModel.getTeams(), tournamentId)) {
-            response.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            response.sendError(
+            		HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
+            		"Impossibile iscrivere le squadre al torneo"
+            );
             return;
         }
         response.setStatus(HttpServletResponse.SC_CREATED);

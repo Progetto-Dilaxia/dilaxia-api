@@ -7,8 +7,6 @@ public class TournamentCreationModel {
     private int sportId;
     @SerializedName("id_campo")
     private int fieldId;
-    @SerializedName("coach")
-    private String coachUsername;
     @SerializedName("descrizione")
     private String description;
     @SerializedName("squadre")
@@ -20,10 +18,6 @@ public class TournamentCreationModel {
 
     public int getFieldId() {
         return fieldId;
-    }
-
-    public String getCoachUsername() {
-        return coachUsername;
     }
 
     public String getDescription() {

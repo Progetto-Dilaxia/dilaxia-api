@@ -7,7 +7,7 @@ public class TournamentSubscriptionSource {
 
     public static boolean addTournamentSubscriptions(int[] squadre, int tournamentId) {
         try(PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
-            INSERT INTO iscrizioni_utenti_tornei(id_torneo, id_squadra)
+            INSERT INTO iscrizioni_squadre_tornei(id_torneo, id_squadra)
             VALUES (?, ?);
             """)) {
             statement.setInt(1, tournamentId);
