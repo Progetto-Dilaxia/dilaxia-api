@@ -14,14 +14,8 @@ public class GameCreationModel {
     private String gameDate;
     @SerializedName("participants_class_year")
     private String classYears;
-    @SerializedName("max_players")
-    private int maxPlayers;
-    @SerializedName("min_players")
-    private int minPlayers;
     @SerializedName("total_players_per_team")
     private int playersPerTeam;
-    @SerializedName("sex")
-    private String sex;
     @SerializedName("id_team_1")
     private int idTeam1;
     @SerializedName("id_team_2")
@@ -49,20 +43,8 @@ public class GameCreationModel {
         return classYears;
     }
 
-    public int getMaxPlayers() {
-        return maxPlayers;
-    }
-
-    public int getMinPlayers() {
-        return minPlayers;
-    }
-
     public int getPlayersPerTeam() {
         return playersPerTeam;
-    }
-
-    public String getSex() {
-        return sex;
     }
 
     public int getIdTeam1() {

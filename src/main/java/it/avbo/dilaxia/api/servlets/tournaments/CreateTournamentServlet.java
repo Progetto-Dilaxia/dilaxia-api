@@ -9,6 +9,7 @@ import it.avbo.dilaxia.api.entities.enums.UserRole;
 import it.avbo.dilaxia.api.models.tournaments.TournamentCreationModel;
 import it.avbo.dilaxia.api.services.Utils;
 import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,6 +17,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Optional;
 
+@WebServlet("/tournaments/create")
 public class CreateTournamentServlet extends HttpServlet {
     private final Gson gson = new Gson();
 

@@ -76,10 +76,7 @@ public class AddGameServlet extends HttpServlet {
                 gameCreationModel.getGameDescription(),
                 Timestamp.valueOf(gameCreationModel.getGameDate()),
                 gameCreationModel.getClassYears(),
-                gameCreationModel.getMaxPlayers(),
-                gameCreationModel.getMinPlayers(),
                 gameCreationModel.getPlayersPerTeam(),
-                gameCreationModel.getSex(),
                 gameCreationModel.getIdTeam1(),
                 gameCreationModel.getIdTeam2(),
                 gameCreationModel.getTournamentId()
@@ -88,15 +85,17 @@ public class AddGameServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_UNSUPPORTED_MEDIA_TYPE, "Formato della data errato");
             return;
         }
-
+        String msg = GameSource.addGame(gameToAdd);
+        /*
         if (!GameSource.addGame(gameToAdd)) {
             response.sendError(
                     HttpServletResponse.SC_INTERNAL_SERVER_ERROR,
                     "Errore durante l'aggiunta di una partita"
             );
             return;
-        }
+        }*/
 
         response.setStatus(HttpServletResponse.SC_CREATED);
+        response.getWriter().print(msg);
     }
 }

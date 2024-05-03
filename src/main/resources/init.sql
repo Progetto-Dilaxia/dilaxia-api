@@ -55,19 +55,17 @@ CREATE TABLE IF NOT EXISTS partite(
 	username_creatore varchar(30) NOT NULL,
 	descrizione varchar(256),
     data_partita timestamp,
-    anni_classe_partecipanti varchar(1),
-    max_giocatori tinyint,
-    min_giocatori tinyint,
+    anni_classe_partecipanti varchar(4),
     numero_giocatori_per_squadra tinyint,
-    genere varchar(1),
 	id_squadra1 smallint unsigned NOT NULL,
 	id_squadra2 smallint unsigned NOT NULL,
-	id_torneo int REFERENCES tornei(id),
+	id_torneo int,
 	FOREIGN KEY (id_squadra1) REFERENCES squadre(id),
 	FOREIGN KEY (id_squadra2) REFERENCES squadre(id),
 	FOREIGN KEY (id_campo) REFERENCES campi(id),
     FOREIGN KEY (id_sport) REFERENCES sport(id),
-	FOREIGN KEY (username_creatore) REFERENCES utenti(username)
+	FOREIGN KEY (username_creatore) REFERENCES utenti(username),
+	FOREIGN KEY (id_torneo) REFERENCES tornei(id)
 );
 
 /*CREATE TABLE IF NOT EXISTS partite_amatoriali (
