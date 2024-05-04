@@ -15,50 +15,48 @@ import it.avbo.dilaxia.api.entities.Sport;
 
 public class SportSource {
 
-	private final static Logger logger = LoggerFactory.getLogger(TournamentSource.class);
+    private final static Logger logger = LoggerFactory.getLogger(TournamentSource.class);
 
-	public static Optional<Sport[]> getAllSports() {
-		String query = "SELECT * FROM sport;";
-		try (Statement statement = DBWrapper.getConnection().createStatement()) {
-			ResultSet result = statement.executeQuery(query);
-			List<Sport> sports = new ArrayList<Sport>();
-			while (result.next()) {
+    public static Optional<Sport[]> getAllSports() {
+        String query = "SELECT * FROM sport;";
+        try (Statement statement = DBWrapper.getConnection().createStatement()) {
+            ResultSet result = statement.executeQuery(query);
+            List<Sport> sports = new ArrayList<Sport>();
+            while (result.next()) {
 
-				Sport sport = new Sport(
+                Sport sport = new Sport(
+                        result.getInt("id"),
+                        result.getString("nome_sport"),
+                        result.getString("descrizione")
+                );
+                sports.add(sport);
 
-						result.getInt("id"), 
-						result.getString("nome_sport"), 
-						result.getString("descrizione")
+            }
+            return Optional.of(sports.toArray(new Sport[0]));
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            logger.error("Unexpected error during statement execution:\n{}", e.getMessage(), e);
+        }
+        return Optional.empty();
 
-				);
-				sports.add(sport);
+    }
 
-			}
-			return Optional.of(sports.toArray(new Sport[0]));
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			logger.error("Unexpected error during statement execution:\n{}", e.getMessage(), e);
-		}
-		return Optional.empty();
+    public static boolean addSport(Sport sport) {
 
-	}
-	
-	public static boolean addSport(Sport sport) {
-		
-		try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
+        try (PreparedStatement statement = DBWrapper.getConnection().prepareStatement("""
 				INSERT INTO sport(nome_sport, descrizione)
 				VALUES (?, ?)
-				""")){
+				""")) {
 
-			statement.setString(1, sport.getName());
-			statement.setString(2, sport.getDescription());
-			
-			statement.executeUpdate();
-			return true;
-		} catch (SQLException e) {
-			return false;
-		}
-	
-	}
-	
+            statement.setString(1, sport.getName());
+            statement.setString(2, sport.getDescription());
+
+            statement.executeUpdate();
+            return true;
+        } catch (SQLException e) {
+            return false;
+        }
+
+    }
+
 }
