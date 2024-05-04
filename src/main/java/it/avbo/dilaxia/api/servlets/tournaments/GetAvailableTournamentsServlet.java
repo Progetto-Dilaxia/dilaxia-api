@@ -4,6 +4,7 @@
  */
 package it.avbo.dilaxia.api.servlets.tournaments;
 
+import com.google.gson.Gson;
 import it.avbo.dilaxia.api.database.TournamentSource;
 import it.avbo.dilaxia.api.entities.Tournament;
 import jakarta.servlet.ServletException;
@@ -20,6 +21,8 @@ import java.util.Optional;
  */
 @WebServlet("/tournaments/available")
 public class GetAvailableTournamentsServlet extends HttpServlet {
+
+    private final Gson gson = new Gson();
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
