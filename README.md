@@ -13,7 +13,7 @@ const response = await fetch("http://95.216.204.15/dilaxia-api/auth/login", {
 		"Content-Type": "application/json",
 	},
 	body: JSON.stringify({
-		username:"admin",
+		identifier:"Admin",
 		password:"admin"
 	}),
 });
